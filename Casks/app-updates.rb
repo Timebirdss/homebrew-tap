@@ -8,21 +8,24 @@ cask "app-updates" do
   homepage "https://github.com/Timebirdss/swiftbar-app-updates"
 
   depends_on formula: "jq"
-  depends_on macos: ">= :big_sur"
+  depends_on macos: :big_sur
 
   binary "#{staged_path}/swiftbar-app-updates-#{version}/bin/app-updates"
 
   postflight do
     plugin_dir = File.expand_path("~/Library/Application Support/SwiftBar/Plugins")
     FileUtils.mkdir_p(plugin_dir)
-    src = "#{staged_path}/swiftbar-app-updates-#{version}/plugin/app-updates.5m.sh"
-    dst = "#{plugin_dir}/app-updates.5m.sh"
-    FileUtils.cp(src, dst)
-    FileUtils.chmod(0o755, dst)
+    FileUtils.cp("#{staged_path}/swiftbar-app-updates-#{version}/plugin/app-updates.5m.sh",
+                 "#{plugin_dir}/app-updates.5m.sh")
+    FileUtils.chmod(0o755, "#{plugin_dir}/app-updates.5m.sh")
     system_command "/usr/bin/open", args: ["-g", "swiftbar://refreshplugin?name=app-updates"]
   end
 
-  uninstall delete: "#{Dir.home}/Library/Application Support/SwiftBar/Plugins/app-updates.5m.sh"
+  # `delete:`/`trash:` go through brew's sudo path for files outside the Homebrew
+  # prefix; removing the plugin ourselves keeps uninstall password-free.
+  uninstall_preflight do
+    FileUtils.rm_f("#{Dir.home}/Library/Application Support/SwiftBar/Plugins/app-updates.5m.sh")
+  end
 
   caveats <<~EOS
     The plugin was copied into your SwiftBar plugin folder and the menu bar icon
