@@ -1,7 +1,9 @@
 # Homebrew tap for Timebirdss
 
 ```bash
-brew install --cask Timebirdss/tap/app-updates
+brew tap Timebirdss/tap
+brew trust timebirdss/tap        # Homebrew 7+ asks this for third-party taps
+brew install --cask app-updates
 ```
 
 | Cask | What it is |
