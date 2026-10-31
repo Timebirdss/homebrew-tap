@@ -1,6 +1,6 @@
 cask "app-updates" do
-  version "1.0.2"
-  sha256 "8c726d8e60e3473cdd655b3365c996bc13cc3ae94bdac45a18abc0b3200ca3d9"
+  version "1.1.0"
+  sha256 "977284a1a52fc6152c818c00fb538fc3364edbab1e8f631049b7d9524dad36ad"
 
   url "https://github.com/Timebirdss/swiftbar-app-updates/archive/refs/tags/v#{version}.tar.gz"
   name "App Updates"
